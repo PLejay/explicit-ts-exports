@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "explicit-ts-exports.helloWorld",
-        "title": "Hello World"
+        "command": "explicit-ts-exports.createIndexFile",
+        "title": "Create Index File"
       }
     ]
   },
