@@ -1,15 +1,33 @@
-import * as assert from 'assert';
+import * as assert from "assert";
+import * as fs from "fs";
+import { beforeEach, describe, it } from "mocha";
+import { createIndexFile } from "../createIndexFile";
 
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
-import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
+const pathToTsFiles = __dirname.replace("/out/", "/src/");
+const pathToMockFolder = `${pathToTsFiles}/mockTestFolder`;
+const pathToIndexFile = `${pathToMockFolder}/index.ts`;
+const pathToMockIndexFile = `${pathToTsFiles}/mockIndex.txt`;
 
-suite('Extension Test Suite', () => {
-	vscode.window.showInformationMessage('Start all tests.');
+describe("The extension", () => {
+  // Delete the index file before each test
+  beforeEach(() => {
+    if (fs.existsSync(pathToIndexFile)) {
+      fs.unlinkSync(pathToIndexFile);
+    }
+  });
 
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
-	});
+  it("should create an index file containing the expected exports", async () => {
+    // Create the index file from the mock folder
+    await createIndexFile(pathToMockFolder);
+
+    // Check if the index file was created
+    assert.equal(fs.existsSync(pathToIndexFile), true);
+
+    // Check that the content of the generated index file is as expected
+    const indexFileContent = fs.readFileSync(pathToIndexFile).toString();
+    const expectedIndexFileContent = fs
+      .readFileSync(pathToMockIndexFile)
+      .toString();
+    assert.equal(indexFileContent, expectedIndexFileContent);
+  });
 });

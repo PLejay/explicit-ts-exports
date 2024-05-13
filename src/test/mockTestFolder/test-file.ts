@@ -7,11 +7,11 @@ export const myVar2: MyVar = 2;
 export const myVar3: MyVar = 2;
 
 export type MySecondVarType = {
-  a: string
-}
+  a: string;
+};
 
 export interface MySecondVarInterface {
-  a: string
+  a: string;
 }
 
 const myDefaultVar: MyVar = 3;

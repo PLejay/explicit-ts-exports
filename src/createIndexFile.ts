@@ -1,24 +1,16 @@
-import * as fs from "fs";
+import { readdir, writeFile } from "node:fs/promises";
 import * as path from "path";
 import * as vscode from "vscode";
 import { getExportsFromFile } from "./getExportsFromFile";
+import { isValidFile } from "./isValidFile";
 
 // Create an index file in the given folder with explicit exports from all files in the folder
-export const createIndexFile = (folderPath: string) => {
-  fs.readdir(folderPath, (err, fileNames) => {
-    console.log("🚀 ~ fs.readdir ~ fileNames:", fileNames)
-    if (err) {
-      vscode.window.showErrorMessage("Failed to read the directory");
-      return;
-    }
+export const createIndexFile = async (folderPath: string) => {
+  try {
+    const files = await readdir(folderPath, { recursive: true });
 
-    // Cover only .ts and .tsx files
-    const isValidFile = (fileName: string) =>
-      fileName.endsWith(".ts") || fileName.endsWith(".tsx");
+    const tsFileNames: string[] = files.filter(isValidFile);
 
-    const tsFileNames = fileNames.filter(
-      fileName => isValidFile(fileName) && fileName !== "index.ts"
-    );
     let content = "";
 
     tsFileNames.forEach(fileName => {
@@ -26,19 +18,22 @@ export const createIndexFile = (folderPath: string) => {
       const exports = getExportsFromFile(filePath);
       if (exports.length > 0) {
         const exportsString = exports.join(",\n  ");
-        content += `export {\n  ${exportsString}\n } from './${fileName.replace(
-          ".ts",
-          ""
-        )}';\n`;
+        content += `export {\n  ${exportsString}\n } from './${fileName
+          .replace(/\.ts(x)?/, "")
+          .replace("/index", "")}';\n`;
       }
     });
 
-    fs.writeFile(path.join(folderPath, "index.ts"), content, err => {
-      if (err) {
-        vscode.window.showErrorMessage("Failed to write the index file");
-        return;
-      }
-      vscode.window.showInformationMessage("Index file created successfully");
-    });
-  });
+    await writeFile(path.join(folderPath, "index.ts"), content);
+
+    vscode.window.showInformationMessage("Index file created successfully");
+  } catch (error) {
+    if (error instanceof Error) {
+      vscode.window.showErrorMessage(error.message);
+    } else {
+      vscode.window.showErrorMessage(
+        "Error while creating the index file: " + JSON.stringify(error)
+      );
+    }
+  }
 };
