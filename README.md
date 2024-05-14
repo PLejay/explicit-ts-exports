@@ -1,39 +1,64 @@
 # explicit-ts-exports README
 
-VS Code extension for generating index files for a folder of typescript files. Will use explicit exports (no `export *`) and surface exports from index files of subfolders (direct children only).
+VS Code extension for generating index files for a folder of typescript files.
 
-## Features
+## Usage
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+In any file, simply invoke the command "Create Index File" to generate an index file for the current folder.
 
-For example if there is an image subfolder under your extension project workspace:
+    To display the command palette, use the following keyboard shortcut, based on your installed operating system:
 
-\!\[feature X\]\(images/feature-x.png\)
+        MacOS: Command+Shift+P
+        Windows: Ctrl+Shift+P
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
+The index file will use explicit exports (no `export *`, no `default` without a name) and surface exports from index files of subfolders (direct children only).
 
-<!-- ## Extension Settings
+Example: if the folder has two files containing the following:
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+`test-file.ts`:
+```js
+export type MyVar = number;
 
-For example:
+export type MySecondVarType = {
+  a: string;
+};
 
-This extension contributes the following settings:
+export const myVar: MyVar = 2;
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something. -->
+const myDefaultVar: MyVar = 3;
 
-<!-- ## Known Issues
+export default myDefaultVar;
 
-Calling out known issues can help limit users opening duplicate issues against your extension. -->
+```
 
-<!-- ## Release Notes
+`test-file-2.ts`:
+```js
+export const myOtherVar = "This is a variable";
 
-Users appreciate release notes as you update your extension.
+export function myFunction() {
+  console.log("I'm a function!");
+}
 
-### 1.0.0
+const yetAnotherFunction = () => myOtherVar;
 
-Initial release of the extension. -->
+export default yetAnotherFunction;
 
----
+```
+
+The index file will look as follows:
+
+`index.ts`:
+```js
+export {
+  myOtherVar,
+  myFunction,
+  default as yetAnotherFunction
+ } from './test-file-2';
+export {
+  type MyVar,
+  myVar,
+  type MySecondVarType,
+  default as myDefaultVar
+ } from './test-file';
+```

@@ -2,13 +2,19 @@
   "name": "explicit-ts-exports",
   "displayName": "explicit-ts-exports",
   "description": "Generates index files containing explicit exports for .ts files in the current folder",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.89.0"
-  },
+  "version": "1.0.0",
   "categories": [
     "Other"
   ],
+  "icon": "images/icon_small.png",
+  "publisher": "PLejay",
+  "nepository": {
+    "type": "git",
+    "url": "https://github.com/PLejay/explicit-ts-exports"
+  },
+  "engines": {
+    "vscode": "^1.89.0"
+  },
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {

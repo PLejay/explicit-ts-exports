@@ -24,7 +24,13 @@ export const createIndexFile = async (folderPath: string) => {
       }
     });
 
-    await writeFile(path.join(folderPath, "index.ts"), content);
+    const pathToIndex = path.join(folderPath, "index.ts");
+
+    await writeFile(pathToIndex, content);
+
+    // Open the new index file
+    const document = await vscode.workspace.openTextDocument(pathToIndex);
+    await vscode.window.showTextDocument(document);
 
     vscode.window.showInformationMessage("Index file created successfully");
   } catch (error) {
