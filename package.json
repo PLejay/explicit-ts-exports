@@ -6,9 +6,9 @@
   "categories": [
     "Other"
   ],
-  "icon": "images/icon_small.png",
+  "icon": "assets/icon_small.png",
   "publisher": "PLejay",
-  "nepository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/PLejay/explicit-ts-exports"
   },
