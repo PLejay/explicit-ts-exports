@@ -1,6 +1,6 @@
 {
   "name": "explicit-ts-exports",
-  "displayName": "explicit-ts-exports",
+  "displayName": "Explicit TS Exports",
   "description": "Generates index files containing explicit exports for .ts files in the current folder",
   "version": "1.0.0",
   "categories": [
@@ -12,10 +12,16 @@
     "type": "git",
     "url": "https://github.com/PLejay/explicit-ts-exports"
   },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.89.0"
   },
-  "activationEvents": [],
+  "files": [
+    "out"
+  ],
+  "activationEvents": [
+    "onCommand:explicit-ts-exports.createIndexFile"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -43,6 +49,7 @@
     "@vscode/test-electron": "^2.3.9",
     "eslint": "^8.57.0",
     "mocha": "^10.4.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vscode": "^1.1.37"
   }
 }

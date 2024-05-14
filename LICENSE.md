@@ -1,4 +1,4 @@
-MIT Licence
+MIT License
 
 Copyright (c) 2024-present Pierre Lejay <pierrelejay1+github@gmail.com>
 
