@@ -2,7 +2,7 @@
   "name": "explicit-ts-exports",
   "displayName": "Explicit TS Exports",
   "description": "Generates index files containing explicit exports for .ts files in the current folder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "categories": [
     "Other"
   ],
