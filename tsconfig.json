@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
     "jsx": "react",
-		"module": "Node16",
+		"module": "NodeNext",
 		"target": "ES2022",
 		"outDir": "out",
 		"lib": [
